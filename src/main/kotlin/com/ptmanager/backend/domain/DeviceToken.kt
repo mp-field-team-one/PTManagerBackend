@@ -8,28 +8,28 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.Instant
 
 @Entity
-@Table(name = "join_request")
-class JoinRequest(
+@Table(name = "device_token")
+class DeviceToken(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(name = "workplace_id", nullable = false)
-    var workplaceId: Long = 0,
-
     @Column(name = "user_id", nullable = false)
     var userId: Long = 0,
 
+    @Column(nullable = false, unique = true, length = 512)
+    var token: String = "",
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 16)
-    var status: JoinRequestStatus = JoinRequestStatus.PENDING,
+    var platform: Platform = Platform.ANDROID,
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    var createdAt: Instant? = null,
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    var updatedAt: Instant? = null,
 )
